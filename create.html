@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script async defer data-website-id="9b61da17-d763-4d51-a145-b6acce1d9f82" src="https://analytics.woutfeys.be/umami.js"></script>
     <script src="/js/example-copy.js"></script>
-    <title>Zen Demo | Add a New Pet</title>
+    <title>Zen Live Example | Add a New Pet</title>
     <style>
         @import url('/css/general.css');
 
@@ -90,7 +90,7 @@
 
 <div class="container">
     <h1>Existing Pets</h1>
-    <p><a href="/clear">Click here</a> to clear all existing pets.</p>
+    <p><a id="clearButton" href="#">Click here</a> to clear all existing pets.</p>
     <div>
         <ul id="petsList">
 
@@ -99,6 +99,11 @@
 </div>
 
 <script>
+    document.getElementById('clearButton').addEventListener('click', function(event) {
+        fetch('/clear').then(response => {
+            window.location.reload();
+        });
+    });
     document.getElementById('petForm').addEventListener('submit', function(event) {
         event.preventDefault(); // Prevent the default form submission
 
@@ -113,13 +118,8 @@
             },
             body: JSON.stringify({ name: petName })
         })
-        .then(response => {
-            if (response.ok) {
-                alert('Pet added successfully!');
-                window.location.reload()
-            } else {
-                alert('Error adding pet. Please try again.');
-            }
+        .then(async (response) => {
+            alert('Response: ' + await response.text());
         })
         .catch(error => console.error('Error:', error));
     });
