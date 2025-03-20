@@ -149,6 +149,13 @@ window.addEventListener('load', () => {
                 resultElement.textContent = 'Error: ' + error.message;
             });
     });
+
+    const hostnameElements = document.getElementsByClassName('hostname');
+    const currentUrl = window.location.href;
+    for (let i = 0; i < hostnameElements.length; i++) {
+        const element = hostnameElements[i];
+        element.textContent = currentUrl;
+    }
 });
     </script>
 </head>
@@ -162,7 +169,6 @@ window.addEventListener('load', () => {
         Here you can experiment with different types of injection attacks, user blocking, rate-limiting, bot blocking to see how Zen is able to
         protect against unwanted behavior at runtime.<br/> <br/>
         → <a href="https://aikido.dev/zen">Install Zen</a> and start securing your web applications today! <br/>
-        → <a href="https://github.com/AikidoSec/firewall-java">GitHub page</a>
     </p>
 </div>
 <div class="container">
@@ -178,7 +184,7 @@ window.addEventListener('load', () => {
     <h2>Test rate-limiting and bot blocking</h2>
     <p>You can test our rate limiting features with the following button,
         this is equivalent to running the following cURL command</p>
-    <code class="code">curl https://demo.webfirewall.dev/test_ratelimiting_1</code>
+    <code class="code">curl <span class="hostname">...</span>test_ratelimiting_1</code>
     <button class="button" id="rate_limiting" style="display: inline;">Test rate-limiting</button>
     <span style="color: #555; padding: 0 6px;">(max 3 requests / minute)</span>
     <code id="rate_limiting_res" class="req_result">
@@ -193,7 +199,7 @@ window.addEventListener('load', () => {
     <code class="code">
         curl \<br/>
         <span style="width: 20px; display: inline-block;"></span>-H "User-Agent: Mozilla/5.0 (compatible; Bytespider/1.0; +http://bytespider.com/bot.html)" \<br/>
-        <span style="width: 20px; display: inline-block;"></span>-X GET https://demo.webfirewall.dev/test_bot_blocking
+        <span style="width: 20px; display: inline-block;"></span>-X GET <span class="hostname">...</span>
     </code>
     <button class="button" id="bot_blocking1">Test bot blocking (safe header)</button>
     <button class="button" id="bot_blocking2">Test bot blocking (dangerous header)</button>
@@ -208,7 +214,7 @@ window.addEventListener('load', () => {
     <code class="code">
         curl \<br/>
         <span style="width: 20px; display: inline-block;"></span>-H "user: 123456" \<br/>
-        <span style="width: 20px; display: inline-block;"></span>-X GET https://demo.webfirewall.dev/test_user_blocking
+        <span style="width: 20px; display: inline-block;"></span>-X GET <span class="hostname">...</span>
     </code>
     <button class="button" id="user_123456" style="display: inline;">Request</button>
     <span style="color: #555; padding: 0 6px;">with allowed user (ID: 123456)</span>
@@ -219,7 +225,7 @@ window.addEventListener('load', () => {
     <code class="code">
         curl \<br/>
         <span style="width: 20px; display: inline-block;"></span>-H "user: 789" \<br/>
-        <span style="width: 20px; display: inline-block;"></span>-X GET https://demo.webfirewall.dev/test_user_blocking
+        <span style="width: 20px; display: inline-block;"></span>-X GET <span class="hostname">...</span>
     </code>
     <button class="button" id="user_789" style="display: inline;">Request</button>
     <span style="color: #555; padding: 0 6px;">with blocked user (ID: 789)</span>
