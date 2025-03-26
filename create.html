@@ -101,7 +101,7 @@
 <script>
     document.getElementById('clearButton').addEventListener('click', function(event) {
         fetch('/clear').then(response => {
-            window.location.reload();
+            fetchList();
         });
     });
 
