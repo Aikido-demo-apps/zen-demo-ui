@@ -115,8 +115,35 @@
 
                 const llmMessage = document.getElementById('llmMessage').value;
                 const llmProvider = document.getElementById('llmProvider').value;
+                const resultElement = document.getElementById('llmResult');
+                const llmButton = document.getElementById('llmButton');
+                llmButton.disabled = true;
+                llmButton.textContent = 'Sending request...';
 
-                console.log('Sending message: ' + llmMessage + ' to provider: ' + llmProvider);
+                // Simulate a request to the server
+                fetch('/test_llm', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        'message': llmMessage,
+                        'provider': llmProvider,
+                    })
+                })
+                    .then(response => {
+                        return response.text();
+                    })
+                    .then(data => {
+                        resultElement.textContent = data;
+                    })
+                    .catch(error => {
+                        resultElement.textContent = 'Error: ' + error.message;
+                    })
+                    .finally(() => {
+                        llmButton.disabled = false;
+                        llmButton.textContent = 'Send';
+                });
             });
 
             // Fill in url's
@@ -228,10 +255,13 @@
         <select id="llmProvider" name="llmProvider">
             <option value="openai">OpenAI</option>
             <option value="anthropic">Anthropic</option>
-            <option value="mistral">Mercedes</option>
+            <option value="mistral">Mistral</option>
         </select>
-        <button class="btn" type="submit">Send</button>
+        <button class="btn" type="submit" id="llmButton">Send</button>
     </form>
+    <pre id="llmResult" class="req_result">
+        <br/>
+    </pre>
 </div>
 <br/>
 </body>
