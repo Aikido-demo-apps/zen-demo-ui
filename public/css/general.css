@@ -1,4 +1,4 @@
-@import url('/css/font.css');
+@import url('./font.css');
 
 body {
     font-family: 'New Grotesk', sans-serif;
@@ -54,4 +54,119 @@ h1 {
 
 .btn:hover {
     background-color: #24104F;
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+input[type="text"] {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+details {
+    border: 1px solid #aaa;
+    border-radius: 4px;
+    padding: 0.5em 0.5em 0;
+    margin-bottom: 5px;
+}
+
+summary {
+    font-weight: bold;
+    margin: -0.5em -0.5em 0;
+    padding: 0.5em;
+}
+
+details[open] {
+    padding: 0.5em;
+}
+ul {
+    list-style-type: none;
+    padding: 0;
+    font-family: sans-serif;
+    font-size: 0.7em;
+}
+.pet-id {
+    background:  #e3e0fc;
+    color: black;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-weight: 900;
+}
+.pet-info {
+    font-weight: 500;
+}
+.pet-owned-by {
+    font-weight: 300;
+}
+.pet-owner {
+    font-weight: 500;
+}
+ul li {
+    background: #e9ecef;
+    margin: 5px 0;
+    padding: 10px 5px;
+    border-radius: 5px;
+}
+a {
+    color: #A68BF7;
+    font-weight: bold;
+}
+
+.button {
+    display: block;
+    background-color: #6551F3;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: left;
+    text-decoration: none;
+    margin: 10px 0;
+}
+#bot_blocking1, #bot_blocking2 {
+    display: inline-block;
+}
+
+.button:hover {
+    background-color: #24104F;
+}
+
+.req_result {
+    width: auto;
+    display: block;
+    background-color: whitesmoke;
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 4px;
+
+}
+.code {
+    display: block;
+    width: auto;
+}
+.vuln-overview {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+.vuln-overview .button {
+    margin: 5px;
+}
+
+select {
+    width: 100%;
+    padding: 10px 30px 10px 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    appearance: none;
+    background: url("data:image/svg+xml;utf8,<svg fill='black' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>") no-repeat;
+    background-position: right 5px center;
+    background-color: white;
 }

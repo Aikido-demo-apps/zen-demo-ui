@@ -4,169 +4,168 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zen by Aikido: Live Example</title>
-    <script async defer data-website-id="9b61da17-d763-4d51-a145-b6acce1d9f82" src="https://analytics.woutfeys.be/umami.js"></script>
     <style>
         @import url('/css/general.css');
-        .button {
-            display: block;
-            background-color: #6551F3;
-            color: white;
-            padding: 10px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            text-align: left;
-            text-decoration: none;
-            margin: 10px 0;
-        }
-        #bot_blocking1, #bot_blocking2 {
-            display: inline-block;
-        }
-
-        .button:hover {
-            background-color: #24104F;
-        }
-        a {
-            color: #A68BF7;
-        }
-        .req_result {
-            width: auto;
-            display: block;
-            background-color: whitesmoke;
-            margin: 10px 0;
-            padding: 10px;
-            border-radius: 4px;
-
-        }
-        .code {
-            display: block;
-            width: auto;
-        }
-        .vuln-overview {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-        }
-        .vuln-overview .button {
-            margin: 5px;
-        }
     </style>
     <script>
-window.addEventListener('load', () => {
-    document.getElementById('rate_limiting').addEventListener('click', function() {
-        const resultElement = document.getElementById('rate_limiting_res');
-        resultElement.textContent = 'Sending request...';
+        window.addEventListener('load', () => {
+            document.getElementById('rate_limiting').addEventListener('click', function () {
+                const resultElement = document.getElementById('rate_limiting_res');
+                resultElement.textContent = 'Sending request...';
 
-        // Simulate a request to the server
-        fetch('/test_ratelimiting_1')
-            .then(response => {
-                return response.text();
-            })
-            .then(data => {
-                resultElement.textContent = data;
-            })
-            .catch(error => {
-                resultElement.textContent = 'Error: ' + error.message;
+                // Simulate a request to the server
+                fetch('/test_ratelimiting_1')
+                    .then(response => {
+                        return response.text();
+                    })
+                    .then(data => {
+                        resultElement.textContent = data;
+                    })
+                    .catch(error => {
+                        resultElement.textContent = 'Error: ' + error.message;
+                    });
             });
-    });
 
-    document.getElementById('bot_blocking1').addEventListener('click', function() {
-        const resultElement = document.getElementById('bot_blocking_res');
-        resultElement.textContent = 'Sending request...';
+            document.getElementById('bot_blocking1').addEventListener('click', function () {
+                const resultElement = document.getElementById('bot_blocking_res');
+                resultElement.textContent = 'Sending request...';
 
-        // Simulate a request to the server
-        fetch('/test_bot_blocking')
-            .then(response => {
-                return response.text();
-            })
-            .then(data => {
-                resultElement.textContent = data;
-            })
-            .catch(error => {
-                resultElement.textContent = 'Error: ' + error.message;
+                // Simulate a request to the server
+                fetch('/test_bot_blocking')
+                    .then(response => {
+                        return response.text();
+                    })
+                    .then(data => {
+                        resultElement.textContent = data;
+                    })
+                    .catch(error => {
+                        resultElement.textContent = 'Error: ' + error.message;
+                    });
             });
-    });
 
-    document.getElementById('bot_blocking2').addEventListener('click', function() {
-        const resultElement = document.getElementById('bot_blocking_res');
-        resultElement.textContent = 'Sending request...';
+            document.getElementById('bot_blocking2').addEventListener('click', function () {
+                const resultElement = document.getElementById('bot_blocking_res');
+                resultElement.textContent = 'Sending request...';
 
-        // Simulate a request to the server
-        fetch('/test_bot_blocking', {
-            method: 'GET',
-            headers: {
-                'User-Agent': 'Mozilla/5.0 (compatible; Bytespider/1.0; +http://bytespider.com/bot.html)'
+                // Simulate a request to the server
+                fetch('/test_bot_blocking', {
+                    method: 'GET',
+                    headers: {
+                        'User-Agent': 'Mozilla/5.0 (compatible; Bytespider/1.0; +http://bytespider.com/bot.html)'
+                    }
+                })
+                    .then(response => {
+                        return response.text();
+                    })
+                    .then(data => {
+                        resultElement.textContent = data;
+                    })
+                    .catch(error => {
+                        resultElement.textContent = 'Error: ' + error.message;
+                    });
+            });
+
+            document.getElementById('user_123456').addEventListener('click', function () {
+                const resultElement = document.getElementById('user_123456_res');
+                resultElement.textContent = 'Sending request...';
+
+                // Simulate a request to the server
+                fetch('/test_user_blocking', {
+                    method: 'GET',
+                    headers: {
+                        'user': '123456'
+                    }
+                })
+                    .then(response => {
+                        return response.text();
+                    })
+                    .then(data => {
+                        resultElement.textContent = data;
+                    })
+                    .catch(error => {
+                        resultElement.textContent = 'Error: ' + error.message;
+                    });
+            });
+
+            document.getElementById('user_789').addEventListener('click', function () {
+                const resultElement = document.getElementById('user_789_res');
+                resultElement.textContent = 'Sending request...';
+
+                // Simulate a request to the server
+                fetch('/test_user_blocking', {
+                    method: 'GET',
+                    headers: {
+                        'user': '789'
+                    }
+                })
+                    .then(response => {
+                        return response.text();
+                    })
+                    .then(data => {
+                        resultElement.textContent = data;
+                    })
+                    .catch(error => {
+                        resultElement.textContent = 'Error: ' + error.message;
+                    });
+            });
+
+            // LLM Form
+            document.getElementById('llmForm').addEventListener('submit', function (event) {
+                event.preventDefault(); // Prevent the default form submission
+
+                const llmMessage = document.getElementById('llmMessage').value;
+                const llmProvider = document.getElementById('llmProvider').value;
+                const resultElement = document.getElementById('llmResult');
+                const llmButton = document.getElementById('llmButton');
+                llmButton.disabled = true;
+                llmButton.textContent = 'Sending request...';
+
+                // Simulate a request to the server
+                fetch('/test_llm', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        'message': llmMessage,
+                        'provider': llmProvider,
+                    })
+                })
+                    .then(response => {
+                        return response.text();
+                    })
+                    .then(data => {
+                        resultElement.textContent = data;
+                    })
+                    .catch(error => {
+                        resultElement.textContent = 'Error: ' + error.message;
+                    })
+                    .finally(() => {
+                        llmButton.disabled = false;
+                        llmButton.textContent = 'Send';
+                });
+            });
+
+            // Fill in url's
+            // We host this on multiple domains
+            const hostnameElements = document.getElementsByClassName('hostname');
+            const currentUrl = window.location.href;
+            for (let i = 0; i < hostnameElements.length; i++) {
+                const element = hostnameElements[i];
+                element.textContent = currentUrl;
             }
-        })
-            .then(response => {
-                return response.text();
-            })
-            .then(data => {
-                resultElement.textContent = data;
-            })
-            .catch(error => {
-                resultElement.textContent = 'Error: ' + error.message;
-            });
-    });
-    document.getElementById('user_123456').addEventListener('click', function() {
-        const resultElement = document.getElementById('user_123456_res');
-        resultElement.textContent = 'Sending request...';
-
-        // Simulate a request to the server
-        fetch('/test_user_blocking', {
-            method: 'GET',
-            headers: {
-                'user': '123456'
-            }
-        })
-            .then(response => {
-                return response.text();
-            })
-            .then(data => {
-                resultElement.textContent = data;
-            })
-            .catch(error => {
-                resultElement.textContent = 'Error: ' + error.message;
-            });
-    });
-    document.getElementById('user_789').addEventListener('click', function() {
-        const resultElement = document.getElementById('user_789_res');
-        resultElement.textContent = 'Sending request...';
-
-        // Simulate a request to the server
-        fetch('/test_user_blocking', {
-            method: 'GET',
-            headers: {
-                'user': '789'
-            }
-        })
-            .then(response => {
-                return response.text();
-            })
-            .then(data => {
-                resultElement.textContent = data;
-            })
-            .catch(error => {
-                resultElement.textContent = 'Error: ' + error.message;
-            });
-    });
-
-    const hostnameElements = document.getElementsByClassName('hostname');
-    const currentUrl = window.location.href;
-    for (let i = 0; i < hostnameElements.length; i++) {
-        const element = hostnameElements[i];
-        element.textContent = currentUrl;
-    }
-});
+        });
     </script>
 </head>
 <body>
-<img src="/aikido_logo.svg" class="logo" />
+<img src="/aikido_logo.svg" class="logo"/>
 <div class="container">
     <h1>Zen by Aikido: Live Example</h1>
     <p>
         Zen, developed by Aikido, is designed to protect your web applications from a wide range of vulnerabilities.
         This is a live example app. Zen is installed and configured to protect this application.
-        Here you can experiment with different types of injection attacks, user blocking, rate-limiting, bot blocking to see how Zen is able to
+        Here you can experiment with different types of injection attacks, user blocking, rate-limiting, bot blocking to
+        see how Zen is able to
         protect against unwanted behavior at runtime.<br/> <br/>
         → <a href="https://aikido.dev/zen">Install Zen</a> and start securing your web applications today! <br/>
     </p>
@@ -192,13 +191,16 @@ window.addEventListener('load', () => {
     </code>
     <hr>
     <p>You can test our bot blocking features with the following button,
-    this is equivalent to running the following cURL command</p>
-    <p style="font-style: italic"><b>Note</b>: This only works on Firefox, Chromium-based browsers currently have an issue
-    with setting the User-Agent in a fetch request (<a href="https://issues.chromium.org/issues/40450316">see here</a>).
-    You can still test it out with the cURL command below</p>
+        this is equivalent to running the following cURL command</p>
+    <p style="font-style: italic"><b>Note</b>: This only works on Firefox, Chromium-based browsers currently have an
+        issue
+        with setting the User-Agent in a fetch request (<a href="https://issues.chromium.org/issues/40450316">see
+            here</a>).
+        You can still test it out with the cURL command below</p>
     <code class="code">
         curl \<br/>
-        <span style="width: 20px; display: inline-block;"></span>-H "User-Agent: Mozilla/5.0 (compatible; Bytespider/1.0; +http://bytespider.com/bot.html)" \<br/>
+        <span style="width: 20px; display: inline-block;"></span>-H "User-Agent: Mozilla/5.0 (compatible;
+        Bytespider/1.0; +http://bytespider.com/bot.html)" \<br/>
         <span style="width: 20px; display: inline-block;"></span>-X GET <span class="hostname">...</span>
     </code>
     <button class="button" id="bot_blocking1">Test bot blocking (safe header)</button>
@@ -237,9 +239,29 @@ window.addEventListener('load', () => {
 <div class="container">
     <h2>IP Blocking</h2>
     <p>Demo-ing the IP Blocking capabilities isn't super easy. We offer support for <b>geo-ip blocking</b>,
-    blocking of <b>malicious actor</b> and blocking <b>Tor traffic</b></p>
+        blocking of <b>malicious actor</b> and blocking <b>Tor traffic</b></p>
     <p>We enabled the blocking of Tor traffic on this site to demo the IP Blocking capabilities as best as we could.</p>
     → <a href="https://www.torproject.org/download/">Download Tor Browser</a>
+</div>
+
+<div class="container">
+    <h2>AI Usage</h2>
+    <p>Large language models are awesome, but providing them with user input opens up the door to abuse. Try out our
+        monitoring and protection methods below.</p>
+    <form id="llmForm">
+        <label for="llmMessage">Your message:</label>
+        <input type="text" id="llmMessage" name="llmMessage" class="example-input" value="Hello from a human" required>
+        <label for="llmProvider">Provider:</label>
+        <select id="llmProvider" name="llmProvider">
+            <option value="openai">OpenAI</option>
+            <option value="anthropic">Anthropic</option>
+            <option value="mistral">Mistral</option>
+        </select>
+        <button class="btn" type="submit" id="llmButton">Send</button>
+    </form>
+    <pre id="llmResult" class="req_result">
+        <br/>
+    </pre>
 </div>
 <br/>
 </body>
