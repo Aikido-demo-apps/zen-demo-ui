@@ -65,6 +65,17 @@
         .catch(error => console.error('Error:', error));
     });
 
+    function escapeHtml(string) {
+        const htmlEscapes = {
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#39;'
+        };
+        return string.replace(/[&<>"']/g, char => htmlEscapes[char]);
+    }
+
     function fetchList() {
         const petsList = document.getElementById('petsList');
         petsList.innerHTML = '';
@@ -75,10 +86,10 @@
                 pets.forEach(pet => {
                     const li = document.createElement('li');
                     li.innerHTML = `
-                        <span class="pet-id">${pet.pet_id}</span>
-                        <span class="pet-info">${pet.name}</span>
+                        <span class="pet-id">${escapeHtml(pet.pet_id)}</span>
+                        <span class="pet-info">${escapeHtml(pet.name)}</span>
                         <span class="pet-owned-by">Owned by: </span>
-                        <span class="pet-owner">${pet.owner}</span>
+                        <span class="pet-owner">${escapeHtml(pet.owner)}</span>
                     `;
                     petsList.appendChild(li);
                 });
