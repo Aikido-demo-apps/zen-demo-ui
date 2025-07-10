@@ -154,6 +154,38 @@
                 const element = hostnameElements[i];
                 element.textContent = currentUrl;
             }
+
+            // Rate limiting group ID functionality
+            const rateLimitGroupInput = document.getElementById('rateLimitGroupId');
+
+            // Check if cookie exists and prefill on page load
+            function getCookie(name) {
+                const value = `; ${document.cookie}`;
+                const parts = value.split(`; ${name}=`);
+                if (parts.length === 2) return parts.pop().split(';').shift();
+                return null;
+            }
+
+            function setCookie(name, value, days = 7) {
+                const expires = new Date(Date.now() + days * 864e5).toUTCString();
+                document.cookie = `${name}=${value}; expires=${expires}; path=/`;
+            }
+
+            // Prefill group ID from cookie if it exists
+            const existingGroupId = getCookie('RateLimitingGroupID');
+            if (existingGroupId) {
+                rateLimitGroupInput.value = existingGroupId;
+            }
+
+            rateLimitGroupInput.addEventListener('change', function() {
+                const groupId = rateLimitGroupInput.value.trim();
+                if (groupId) {
+                    setCookie('RateLimitingGroupID', groupId);
+                } else {
+                    // Clear cookie if input is empty
+                    document.cookie = 'RateLimitingGroupID=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+                }
+            });
         });
     </script>
 </head>
@@ -183,7 +215,13 @@
     <h2>Test rate-limiting and bot blocking</h2>
     <p>You can test our rate limiting features with the following button,
         this is equivalent to running the following cURL command</p>
-    <code class="code">curl <span class="hostname">...</span>test_ratelimiting_1</code>
+    <code class="code" style="margin-bottom: 20px;">curl <span class="hostname">...</span>test_ratelimiting_1</code>
+
+    <form style="margin-bottom: 20px;">
+        <label for="rateLimitGroupId">Rate Limiting Group ID:</label>
+        <input type="text" id="rateLimitGroupId" name="rateLimitGroupId" class="example-input" required style="margin-bottom: 0;">
+    </form>
+
     <button class="button" id="rate_limiting" style="display: inline;">Test rate-limiting</button>
     <span style="color: #555; padding: 0 6px;">(max 3 requests / minute)</span>
     <code id="rate_limiting_res" class="req_result">
