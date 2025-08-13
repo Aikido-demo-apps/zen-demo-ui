@@ -72,7 +72,7 @@
             '"': '&quot;',
             "'": '&#39;'
         };
-        return string.replace(/[&<>"']/g, char => htmlEscapes[char]);
+        return String(string).replace(/[&<>"']/g, char => htmlEscapes[char]);
     }
 
     function fetchList() {
