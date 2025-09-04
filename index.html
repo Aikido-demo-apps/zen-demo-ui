@@ -146,6 +146,26 @@
                 });
             });
 
+            document.getElementById('attack_wave').addEventListener('click', function () {
+                const resultElement = document.getElementById('attack_wave_res');
+                resultElement.textContent = 'Simulating attack wave...';
+
+                const attackCount = 20;
+                const requests = [];
+
+                for (let i = 0; i < attackCount; i++) {
+                    requests.push(fetch('/.env'));
+                }
+
+                Promise.all(requests)
+                    .then(results => {
+                        resultElement.textContent = `Attack wave completed, sent ${attackCount} requests`;
+                    })
+                    .catch(error => {
+                        resultElement.textContent = 'Error during attack simulation: ' + error.message;
+                    });
+            });
+
             // Fill in url's
             // We host this on multiple domains
             const hostnameElements = document.getElementsByClassName('hostname');
@@ -280,6 +300,15 @@
         blocking of <b>malicious actor</b> and blocking <b>Tor traffic</b></p>
     <p>We enabled the blocking of Tor traffic on this site to demo the IP Blocking capabilities as best as we could.</p>
     → <a href="https://www.torproject.org/download/">Download Tor Browser</a>
+</div>
+
+<div class="container">
+    <h2>Attack Wave Simulation</h2>
+    <p>Test attack wave detection by sending probing requests to trigger reconnaissance detection.</p>
+    <button class="button" id="attack_wave">Simulate Attack Wave</button>
+    <code id="attack_wave_res" class="req_result">
+        <br/>
+    </code>
 </div>
 
 <div class="container">
