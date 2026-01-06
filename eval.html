@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zen Live Example | Code Injection</title>
+    <script src="/js/example-copy.js"></script>
+    <style>
+        @import url('/css/general.css');
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        details {
+            border: 1px solid #aaa;
+            border-radius: 4px;
+            padding: 0.5em 0.5em 0;
+            margin-bottom: 5px;
+        }
+
+        summary {
+            font-weight: bold;
+            margin: -0.5em -0.5em 0;
+            padding: 0.5em;
+        }
+
+        details[open] {
+            padding: 0.5em;
+        }
+    </style>
+</head>
+<body>
+<a href="/"><img src="/aikido_logo.svg" class="logo" /></a>
+<div class="container">
+    <h1>Code Injection | Evaluate an expression</h1>
+    <form id="evalForm">
+        <details open>
+            <summary>Examples</summary>
+            <code class="code example">1 + 1</code>
+            <p style="display:inline">A safe expression that should be allowed</p>
+            <br/>
+            <code class="code example">1 + 1; console.log('hello')</code>
+            <p style="display:inline">Code injection attempt that should be blocked</p>
+        </details>
+        <label for="expression">Expression to evaluate:</label>
+        <input type="text" id="expression" name="expression" class="example-input" required>
+        <button class="btn" type="submit">Evaluate!</button>
+    </form>
+</div>
+
+<script>
+    document.getElementById('evalForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const expression = document.getElementById('expression').value;
+
+        fetch('/api/eval', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ expression })
+        })
+        .then(async (response) => {
+            if (response.status === 404) {
+                alert('Unsupported: Code injection endpoint is not available for this runtime.');
+                return;
+            }
+            if (response.ok) {
+                alert(await response.text());
+            } else {
+                alert('Error evaluating expression. Please try again.');
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    });
+</script>
+</body>
+</html>
