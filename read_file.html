@@ -40,7 +40,7 @@
 </head>
 <body>
 <a href="/"><img src="/aikido_logo.svg" class="logo" /></a>
-<form class="container" action="/api/read">
+<form class="container" id="readForm">
     <h1>Path Traversal | Read a file</h1>
     <details open>
         <summary>Examples</summary>
@@ -53,11 +53,26 @@
         <code class="code example">../secrets/key.txt</code>
         <p style="display:inline">Path traversal, opens a file outside blog directory</p>
     </details>
-    <div id="readForm">
+    <div>
         <label for="path"><b>Path :</b></label>
         <input type="text" id="path" name="path" class="example-input" required>
         <button class="btn" type="submit">Read file</button>
     </div>
 </form>
+<script>
+    document.getElementById('readForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const path = document.getElementById('path').value;
+
+        fetch('/api/read?path=' + encodeURIComponent(path))
+            .then(async (response) => {
+                alert(await response.text());
+            })
+            .catch(error => {
+                alert('Error: ' + error.message);
+            });
+    });
+</script>
 </body>
 </html>

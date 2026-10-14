@@ -59,12 +59,10 @@
 
 <script>
     document.getElementById('commandForm').addEventListener('submit', function(event) {
-        event.preventDefault(); // Prevent the default form submission
+        event.preventDefault();
 
         const userCommand = document.getElementById('userCommand').value;
 
-        // Here you would typically send the data to your server
-        // For example, using fetch:
         fetch('/api/execute', {
             method: 'POST',
             headers: {
@@ -73,13 +71,11 @@
             body: JSON.stringify({ userCommand })
         })
         .then(async (response) => {
-            if (response.ok) {
-                alert(await response.text());
-            } else {
-                alert('Error executing command. Please try again.');
-            }
+            alert(await response.text());
         })
-        .catch(error => console.error('Error:', error));
+        .catch(error => {
+            alert('Error: ' + error.message);
+        });
     });
 </script>
 </body>
