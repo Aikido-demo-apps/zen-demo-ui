@@ -166,6 +166,20 @@
                     });
             });
 
+            document.getElementById('custom_event').addEventListener('click', function () {
+                const resultElement = document.getElementById('custom_event_res');
+                resultElement.textContent = 'Sending request...';
+
+                fetch('/api/custom-event')
+                    .then(async response => {
+                        const data = await response.text();
+                        resultElement.textContent = `HTTP ${response.status}: ${data}`;
+                    })
+                    .catch(error => {
+                        resultElement.textContent = 'Error: ' + error.message;
+                    });
+            });
+
             // Fill in url's
             // We host this on multiple domains
             const hostnameElements = document.getElementsByClassName('hostname');
@@ -329,6 +343,15 @@
     <pre id="llmResult" class="req_result">
         <br/>
     </pre>
+</div>
+<div class="container" id="custom-events">
+    <h2>Custom events</h2>
+    <p>Send a <code>user.login_failed</code> custom event. You can use this event in a Playbook to respond to repeated failed logins.</p>
+    <code class="code">curl <span class="hostname">...</span>api/custom-event</code>
+    <button class="button" id="custom_event" type="button">Track failed login</button>
+    <code id="custom_event_res" class="req_result" aria-live="polite">
+        <br/>
+    </code>
 </div>
 <br/>
 </body>
